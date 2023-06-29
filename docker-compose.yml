@@ -1,0 +1,70 @@
+version: '3.9'
+services:
+  app:
+    build: ./docker/php/
+    image: ${APP_NAME}-app
+    restart: unless-stopped
+    working_dir: /app
+    tty: true
+    ports:
+      - 9000
+    environment:
+      - APP_DEBUG=1
+      - SERVICE_NAME=${APP_NAME}
+      - SERVICE_ENV=dev
+      - COMPOSER_AUTH=${COMPOSER_AUTH}
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+    networks:
+      - app_network
+
+  db:
+    build: ./docker/mysql/
+    image: ${APP_NAME}-mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${DB_PASSWORD}
+    ports:
+      - "3308:3306"
+    networks:
+      - app_network
+
+  webserver:
+    build: ./docker/nginx/
+    image: ${APP_NAME}-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+      - ./:/app
+      - ./docker/nginx/logs/:/var/logs/nginx
+    networks:
+      - app_network
+
+  redis:
+    build: ./docker/redis/
+    image: ${APP_NAME}-redis
+    volumes:
+      - redis_data:/var/lib/redis
+    restart: always
+    ports:
+      - 6380:6379
+    networks:
+      - app_network
+
+volumes:
+  redis_data: {}
+  db_data: {}
+networks:
+  app_network:
+    driver: bridge

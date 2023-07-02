@@ -24,7 +24,7 @@ class LoginTest extends TestCase
     /** @test */
     public function it_returns_token_when_valid_credentials_are_provided()
     {
-        $user = User::factory()->create([
+        User::factory()->create([
             'email' => 'test@user.com',
             'password' => bcrypt('password'),
         ]);
@@ -49,9 +49,9 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_when_using_invalid_credentials()
+    public function it_validates_wrong_credentials_pass()
     {
-        $user = User::factory()->create([
+        User::factory()->create([
             'email' => 'test@user.com',
             'password' => bcrypt('password'),
         ]);

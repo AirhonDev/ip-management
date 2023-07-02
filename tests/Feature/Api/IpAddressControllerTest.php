@@ -92,4 +92,35 @@ class IpAddressControllerTest extends TestCase
                 ]
             );
     }
+
+    /** @test */
+    public function it_should_has_audit_logs()
+    {
+        Sanctum::actingAs(
+            User::factory()->create(),
+        );
+
+        $response = $this->post('/api/ip-address', [
+            'ip_address' => '192.0.2.1',
+            'label' => 'IT Department'
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'ip_address',
+                ]
+            ]);
+
+        $this->assertDatabaseHas('audit_logs', [
+            'user_id' => auth()->id(),
+            'method' => 'POST',
+            'request_path' => 'api/ip-address',
+            'payload' => json_encode([
+                'ip_address' => '192.0.2.1',
+                'label' => 'IT Department'
+            ]),
+        ]);
+    }
 }

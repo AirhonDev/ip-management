@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('ip_address');
+            $table->string('method');
             $table->string('request_path');
             $table->json('payload')->nullable();
             $table->timestamp('action_time');

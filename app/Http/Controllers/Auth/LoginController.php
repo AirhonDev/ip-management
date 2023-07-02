@@ -12,11 +12,22 @@ class LoginController extends Controller
 {
     private UserService $service;
 
+    /**
+     * @param UserService $service
+     *
+     */
+
     public function __construct(UserService $service)
     {
         $this->service = $service;
     }
 
+    /**
+     * Logs a user in the system.
+     *
+     * @param  LoginRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(LoginRequest $request)
     {
         $user = $this->service->authenticateUser($request->email, $request->password);

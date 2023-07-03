@@ -9,7 +9,7 @@ use App\Repositories\IpAddress\Dto\IpAddressDtoFilters;
 
 class IpAddressRepository implements IpAddressRepositoryInterface
 {
-    public function insertIpWithLabel(IpAddressDto $dto): ?IpAddress
+    public function create(IpAddressDto $dto): ?IpAddress
     {
         $ipAddress = IpAddress::create([
             'ip_address' => $dto->ip,
@@ -23,7 +23,7 @@ class IpAddressRepository implements IpAddressRepositoryInterface
         return $ipAddress;
     }
 
-    public function getIpAddresses(IpAddressDtoFilters $dto)
+    public function fetchWithPagination(IpAddressDtoFilters $dto)
     {
         return IpAddress::paginate($dto->per_page);
     }

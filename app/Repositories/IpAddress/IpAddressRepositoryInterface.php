@@ -14,14 +14,14 @@ interface IpAddressRepositoryInterface
      * 
      * @return IpAddress
      */
-    public function getIpAddresses(IpAddressDtoFilters $dto);
+    public function fetchWithPagination(IpAddressDtoFilters $dto);
 
     /**
      * @param IpAddressDto $dto
      * 
      * @return IpAddress
      */
-    public function insertIpWithLabel(IpAddressDto $dto): ?IpAddress;
+    public function create(IpAddressDto $dto): ?IpAddress;
 
     /**
      * @param IpAddressDto $dto

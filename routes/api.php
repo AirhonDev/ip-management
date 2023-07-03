@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\IpAddress\IpAddressController;
+use App\Http\Controllers\IpAddressLabel\LabelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::resource('ip-address', IpAddressController::class)->except(['update']);
     Route::put('/ip-address/{ip_address}/{label}', [IpAddressController::class, 'update']);
+
+    Route::group(['prefix' => 'labels'], function () {
+        Route::get('/', [LabelController::class, 'index']);
+        Route::post('/{ip_address}', [LabelController::class, 'store']);
+    });
 });

@@ -2,10 +2,8 @@
 
 namespace App\Repositories\IpAddress\Dto;
 
-class IpAddressDtoFilters
+use App\Repositories\AbstractFilterDto;
+
+class IpAddressDtoFilters extends AbstractFilterDto
 {
-    /**
-     * @var string per page pagination.
-     */
-    public string $per_page;
 }

@@ -18,6 +18,15 @@ class IpAddressService
         $this->ipAddressRepository = $ipAddressRepository;
     }
 
+    public function fetchWithPagination(Request $request)
+    {
+        $dto = new IpAddressDtoFilters;
+
+        $dto->per_page = $request->per_page;
+
+        return $this->ipAddressRepository->fetchWithPagination($dto);
+    }
+
     public function create(Request $request)
     {
         $dto = new IpAddressDto;
@@ -26,16 +35,7 @@ class IpAddressService
         $dto->label = $request->label;
         $dto->user = auth()->user();
 
-        return $this->ipAddressRepository->insertIpWithLabel($dto);
-    }
-
-    public function fetchWithPagination(Request $request)
-    {
-        $dto = new IpAddressDtoFilters;
-
-        $dto->per_page = $request->per_page;
-
-        return $this->ipAddressRepository->getIpAddresses($dto);
+        return $this->ipAddressRepository->create($dto);
     }
 
     public function update(Request $request, IpAddress $ipAddress, IpAddressLabel $label)

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class IpAddressResource extends JsonResource
+class IpAddressLabelResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,9 @@ class IpAddressResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'ip_address' => $this->ip_address,
-            'labels' => IpAddressLabelResource::collection($this->labels),
+            'ip_address_id' => $this->ipAddress->id,
+            'user' => $this->user,
+            'label' => $this->label,
             'created_at' => $this->created_at
         ];
     }

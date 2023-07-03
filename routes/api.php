@@ -27,5 +27,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::post('/ip-address', [IpAddressController::class, 'store']);
+    Route::resource('ip-address', IpAddressController::class)->except(['update']);
+    Route::put('/ip-address/{ip_address}/{label}', [IpAddressController::class, 'update']);
 });

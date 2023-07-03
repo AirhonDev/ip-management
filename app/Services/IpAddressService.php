@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\IpAddress;
+use App\Models\IpAddressLabel;
 use App\Repositories\IpAddress\Dto\IpAddressDto;
+use App\Repositories\IpAddress\Dto\IpAddressDtoFilters;
 use App\Repositories\IpAddress\IpAddressRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -24,5 +27,25 @@ class IpAddressService
         $dto->user = auth()->user();
 
         return $this->ipAddressRepository->insertIpWithLabel($dto);
+    }
+
+    public function fetchWithPagination(Request $request)
+    {
+        $dto = new IpAddressDtoFilters;
+
+        $dto->per_page = $request->per_page;
+
+        return $this->ipAddressRepository->getIpAddresses($dto);
+    }
+
+    public function update(Request $request, IpAddress $ipAddress, IpAddressLabel $label)
+    {
+        $dto = new IpAddressDto;
+
+        $dto->ip = $request->ip_address;
+        $dto->label = $request->label;
+        $dto->user = auth()->user();
+
+        return $this->ipAddressRepository->updateIpOrLabel($dto, $ipAddress, $label);
     }
 }

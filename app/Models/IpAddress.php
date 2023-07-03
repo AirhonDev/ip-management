@@ -15,5 +15,4 @@ class IpAddress extends Model
     {
         return $this->hasMany(IpAddressLabel::class);
     }
-    
 }

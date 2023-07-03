@@ -3,7 +3,9 @@
 namespace App\Repositories\IpAddress;
 
 use App\Models\IpAddress;
+use App\Models\IpAddressLabel;
 use App\Repositories\IpAddress\Dto\IpAddressDto;
+use App\Repositories\IpAddress\Dto\IpAddressDtoFilters;
 
 class IpAddressRepository implements IpAddressRepositoryInterface
 {
@@ -15,6 +17,24 @@ class IpAddressRepository implements IpAddressRepositoryInterface
 
         $ipAddress->labels()->create([
             'user_id' => $dto->user->id,
+            'label' => $dto->label,
+        ]);
+
+        return $ipAddress;
+    }
+
+    public function getIpAddresses(IpAddressDtoFilters $dto)
+    {
+        return IpAddress::paginate($dto->per_page);
+    }
+
+    public function updateIpOrLabel(IpAddressDto $dto, IpAddress $ipAddress, IpAddressLabel $label): ?IpAddress
+    {
+        $ipAddress->update([
+            'ip_address' => $dto->ip,
+        ]);
+
+        $label->update([
             'label' => $dto->label,
         ]);
 

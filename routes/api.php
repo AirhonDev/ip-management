@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditLog\AuditLogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\IpAddress\IpAddressController;
 use App\Http\Controllers\IpAddressLabel\LabelController;
@@ -35,4 +36,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', [LabelController::class, 'index']);
         Route::post('/{ip_address}', [LabelController::class, 'store']);
     });
+
+    Route::get('/audit-logs', [AuditLogController::class, 'index']);
 });

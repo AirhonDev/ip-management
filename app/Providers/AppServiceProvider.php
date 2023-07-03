@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\AuditLog\AuditLogRepository;
+use App\Repositories\AuditLog\AuditLogRepositoryInterface;
 use App\Repositories\IpAddress\IpAddressRepository;
 use App\Repositories\IpAddress\IpAddressRepositoryInterface;
 use App\Repositories\Label\LabelRepository;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(IpAddressRepositoryInterface::class, IpAddressRepository::class);
         $this->app->bind(LabelRepositoryInterface::class, LabelRepository::class);
+        $this->app->bind(AuditLogRepositoryInterface::class, AuditLogRepository::class);
     }
 
     /**

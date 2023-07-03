@@ -34,9 +34,11 @@ class IpAddressRepository implements IpAddressRepositoryInterface
             'ip_address' => $dto->ip,
         ]);
 
-        $label->update([
-            'label' => $dto->label,
-        ]);
+        if (!empty($label)) {
+            $label->update([
+                'label' => $dto->label,
+            ]);
+        }
 
         return $ipAddress;
     }

@@ -26,7 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
     Route::resource('ip-address', IpAddressController::class)->except(['update']);
-    Route::put('/ip-address/{ip_address}/{label}', [IpAddressController::class, 'update']);
+    Route::put('/ip-address/{ip_address}/{label?}', [IpAddressController::class, 'update']);
 
     Route::group(['prefix' => 'labels'], function () {
         Route::get('/', [LabelController::class, 'index']);

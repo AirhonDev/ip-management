@@ -38,7 +38,7 @@ class IpAddressService
         return $this->ipAddressRepository->create($dto);
     }
 
-    public function update(Request $request, IpAddress $ipAddress, IpAddressLabel $label)
+    public function update(Request $request, IpAddress $ipAddress, IpAddressLabel $label = null)
     {
         $dto = new IpAddressDto;
 

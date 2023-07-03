@@ -290,4 +290,47 @@ class IpAddressControllerTest extends TestCase
             ]),
         ]);
     }
+
+    /** @test */
+    public function it_should_match_updated_ip()
+    {
+        Sanctum::actingAs(
+            $user = User::factory()->create(),
+        );
+
+        $ipAddress = IpAddress::factory()->create();
+        $label = $ipAddress->labels()->create([
+            'label' => fake()->name(),
+            'user_id' => $user
+        ]);
+
+        $response = $this->put("/api/ip-address/$ipAddress->id/$label->id", $data = [
+            'ip_address' => $ip = fake()->ipv4(),
+            'label' => 'New Department'
+        ]);
+
+        $dataResponse = $response->json();
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'ip_address',
+                ]
+            ]);
+
+
+        $this->assertEquals($dataResponse['data']['ip_address'], $data['ip_address']);
+        $this->assertEquals($dataResponse['data']['labels'][0]['label'], $data['label']);
+
+        $this->assertDatabaseHas('audit_logs', [
+            'user_id' => auth()->id(),
+            'method' => 'PUT',
+            'request_path' => "api/ip-address/$ipAddress->id/$label->id",
+            'payload' => json_encode([
+                'ip_address' => $ip,
+                'label' => 'New Department'
+            ]),
+        ]);
+    }
 }
